@@ -5,7 +5,7 @@ import { RootState } from 'src/services/store';
 import { sliceNames } from '../slices-name';
 import { createOrder, getOrderByNumber } from '../order/orders-thunks';
 
-interface TCreateState {
+export interface TCreateState {
   order: TOrder | null;
   orderCall: boolean;
   orderByNumber: TOrder[] | null;

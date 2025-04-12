@@ -1,0 +1,15 @@
+{
+  // Наследования базового конфига проекта
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    // Не генерировать выходные файлы (только проверка типов)
+    "noEmit": true,
+    // Используемые типы (в данном случае типы Cypress)
+    "types": ["cypress"]
+  },
+  // Включаемые пути для обработки TypeScript
+  "include": [
+    "../node_modules/cypress",
+    "./**/*.ts"
+  ]
+}
