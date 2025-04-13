@@ -11,7 +11,7 @@ export interface TCreateState {
   orderByNumber: TOrder[] | null;
 }
 
-const initialState: TCreateState = {
+export const initialState: TCreateState = {
   order: null,
   orderCall: false,
   orderByNumber: null

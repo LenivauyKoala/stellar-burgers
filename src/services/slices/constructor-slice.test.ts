@@ -3,7 +3,8 @@ import {
   constructorSlice,
   addIngredientToConstructor,
   removeIngredientFromConstructor,
-  moveIngredientUpAndDown
+  moveIngredientUpAndDown,
+  initialState
 } from './constructor-slice';
 
 describe('Проверка работы constructor', () => {
@@ -68,15 +69,10 @@ describe('Проверка работы constructor', () => {
     }
   ];
 
-  const initialTestState = {
-    bun: null,
-    constructorIngredients: []
-  };
-
   describe('Добавление компонентов', () => {
     it('добавление булки', () => {
       const state = constructorSlice.reducer(
-        initialTestState, 
+        initialState, 
         addIngredientToConstructor(mockTestBun)
       );
 
@@ -88,7 +84,7 @@ describe('Проверка работы constructor', () => {
   
     it('добавление ингредиентов', () => {
       const state = constructorSlice.reducer(
-        initialTestState,
+        initialState,
         addIngredientToConstructor(mockTestIngredients[0])
       );
 
@@ -105,7 +101,7 @@ describe('Проверка работы constructor', () => {
         name: 'Булка 2'
       };
       const stateWithBun = {
-        ...initialTestState,
+        ...initialState,
         bun: mockTestBun
       };
       const state = constructorSlice.reducer(
@@ -123,7 +119,7 @@ describe('Проверка работы constructor', () => {
   describe('Удаление ингредиентов', () => {
     it('удаляет ингредиент из конструктора', () => {
       const stateWithFillings = {
-        ...initialTestState,
+        ...initialState,
         constructorIngredients: [...mockTestIngredients]
       };
       const state = constructorSlice.reducer(
@@ -141,7 +137,7 @@ describe('Проверка работы constructor', () => {
         id: uuidv4()
       };
       const stateWithFillings = {
-        ...initialTestState,
+        ...initialState,
         constructorIngredients: [...mockTestIngredients]
       };
       const state = constructorSlice.reducer(
@@ -156,7 +152,7 @@ describe('Проверка работы constructor', () => {
   describe('Изменение порядка ингредиентов', () => {
     it('перемещает компонент ниже по списку', () => {
       const stateWithFillings = {
-        ...initialTestState,
+        ...initialState,
         constructorIngredients: [...mockTestIngredients]
       };
       const state = constructorSlice.reducer(
@@ -171,7 +167,7 @@ describe('Проверка работы constructor', () => {
 
     it('перемещает компонент выше по списку', () => {
       const stateWithFillings = {
-        ...initialTestState,
+        ...initialState,
         constructorIngredients: [...mockTestIngredients]
       };
       const state = constructorSlice.reducer(
@@ -186,7 +182,7 @@ describe('Проверка работы constructor', () => {
 
     it('оставляет порядок неизменным при одинаковых позициях', () => {
       const stateWithFillings = {
-        ...initialTestState,
+        ...initialState,
         constructorIngredients: [...mockTestIngredients]
       };
       const state = constructorSlice.reducer(

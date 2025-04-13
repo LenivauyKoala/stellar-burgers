@@ -1,11 +1,6 @@
 import { TFeedsResponse } from '@api';
-import { orderSlice } from './orders-slice';
+import { orderSlice, initialState } from './orders-slice';
 import { sliceNames } from '../../slices/slices-name';
-
-const initialTestState = {
-  userOrder: [],
-  isLoading: false
-};
 
 const mockOrdersData: TFeedsResponse = {
   success: true,
@@ -25,10 +20,10 @@ const mockOrdersData: TFeedsResponse = {
 describe('Проверка работы order', () => {
   it('установка isLoading в true при pending-запросе', () => {
     const action = { type: `${sliceNames.ORDER}/getUserOrders/pending` };
-    const state = orderSlice.reducer(initialTestState, action);
+    const state = orderSlice.reducer(initialState, action);
 
     expect(state.isLoading).toBe(true);
-    expect(state.userOrder).toEqual(initialTestState.userOrder); // проверка, что другие поля не изменились
+    expect(state.userOrder).toEqual(initialState.userOrder); // проверка, что другие поля не изменились
   });
 
   it('корректная обработка успешного запроса (fulfilled)', () => {
@@ -36,7 +31,7 @@ describe('Проверка работы order', () => {
       type: `${sliceNames.ORDER}/getUserOrders/fulfilled`,
       payload: mockOrdersData
     };
-    const state = orderSlice.reducer(initialTestState, action);
+    const state = orderSlice.reducer(initialState, action);
 
     expect(state.isLoading).toBe(false);
     expect(state.userOrder).toEqual(mockOrdersData.orders);
@@ -47,7 +42,7 @@ describe('Проверка работы order', () => {
       type: `${sliceNames.ORDER}/getUserOrders/fulfilled`,
       payload: { ...mockOrdersData, orders: [] }
     };
-    const state = orderSlice.reducer(initialTestState, action);
+    const state = orderSlice.reducer(initialState, action);
 
     expect(state.isLoading).toBe(false);
     expect(state.userOrder).toBeDefined();
@@ -56,9 +51,9 @@ describe('Проверка работы order', () => {
 
   it('обработка ошибки при rejected-запросе', () => {
     const action = { type: `${sliceNames.ORDER}/getUserOrders/rejected` };
-    const state = orderSlice.reducer(initialTestState, action);
+    const state = orderSlice.reducer(initialState, action);
 
     expect(state.isLoading).toBe(false);
-    expect(state.userOrder).toEqual(initialTestState.userOrder);
+    expect(state.userOrder).toEqual(initialState.userOrder);
   });
 });

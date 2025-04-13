@@ -14,7 +14,7 @@ export interface TUserState {
   error: string;
 }
 
-const initialState: TUserState = {
+export const initialState: TUserState = {
   data: null,
   isAuthChecked: false,
   isValidate: false,

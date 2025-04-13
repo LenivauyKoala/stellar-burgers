@@ -1,10 +1,4 @@
-import { ingredientsSlice } from './ingredients-slice';
-
-const initialTestState = {
-  ingredients: [],
-  isLoading: true,
-  error: null,
-};
+import { ingredientsSlice, initialState } from './ingredients-slice';
 
 const mockIngredientsData = [
   { id: '0', name: 'Булка 1', type: 'bun' },
@@ -14,7 +8,7 @@ const mockIngredientsData = [
 describe('Проверка работы ingredients', () => {
   it('должен установить isLoading в true при запросе', () => {
     const action = { type: 'ingredients/fetchIngredients/pending' };
-    const state = ingredientsSlice.reducer(initialTestState, action);
+    const state = ingredientsSlice.reducer(initialState, action);
 
     expect(state.isLoading).toBeTruthy();
     expect(state.error).toBeNull();
@@ -25,7 +19,7 @@ describe('Проверка работы ingredients', () => {
       type: 'ingredients/fetchIngredients/fulfilled',
       payload: mockIngredientsData
     };
-    const state = ingredientsSlice.reducer(initialTestState, action);
+    const state = ingredientsSlice.reducer(initialState, action);
 
     expect(state.isLoading).toBeFalsy();
     expect(state.ingredients).toEqual(mockIngredientsData);
@@ -38,7 +32,7 @@ describe('Проверка работы ingredients', () => {
       type: 'ingredients/fetchIngredients/rejected',
       error: { message: testError }
     };
-    const state = ingredientsSlice.reducer(initialTestState, action);
+    const state = ingredientsSlice.reducer(initialState, action);
 
     expect(state.isLoading).toBeFalsy();
     expect(state.ingredients).toEqual([]);
@@ -47,8 +41,8 @@ describe('Проверка работы ingredients', () => {
 
   it('должен сохранять исходное состояние при неизвестном действии', () => {
     const action = { type: 'unknown/action' };
-    const state = ingredientsSlice.reducer(initialTestState, action);
+    const state = ingredientsSlice.reducer(initialState, action);
 
-    expect(state).toEqual(initialTestState);
+    expect(state).toEqual(initialState);
   });
 });

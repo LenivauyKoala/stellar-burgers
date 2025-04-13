@@ -10,7 +10,7 @@ interface TOrderState {
   isLoading: boolean;
 }
 
-const initialState: TOrderState = {
+export const initialState: TOrderState = {
   userOrder: [],
   isLoading: false
 };

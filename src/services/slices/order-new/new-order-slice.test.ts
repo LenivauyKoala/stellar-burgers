@@ -2,14 +2,8 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { TOrder } from '@utils-types';
 import { TNewOrderResponse } from '@api';
 import { createOrder } from '../order/orders-thunks';
-import { newOrderSlice, TCreateState, clearOrder } from './new-order-slice';
+import { newOrderSlice, TCreateState, clearOrder, initialState } from './new-order-slice';
 
- const initialTestState: TCreateState = {
-   order: null,
-   orderCall: false,
-   orderByNumber: null,
- };
- 
  const mockOrderData: TOrder = {
   _id: '1',
   status: 'pending',
@@ -29,7 +23,7 @@ const mockResponse: TNewOrderResponse = {
 describe('Проверка работы newOrder', () => {
   it('установка orderCall в true при pending-запросе', () => {
     const action = { type: createOrder.pending.type };
-    const state = newOrderSlice.reducer(initialTestState, action);
+    const state = newOrderSlice.reducer(initialState, action);
 
     expect(state.orderCall).toBe(true);
     expect(state.order).toBeNull();
@@ -41,7 +35,7 @@ describe('Проверка работы newOrder', () => {
       type: createOrder.fulfilled.type,
       payload: mockResponse,
     };
-    const state = newOrderSlice.reducer(initialTestState, action);
+    const state = newOrderSlice.reducer(initialState, action);
 
     expect(state.orderCall).toBe(false);
     expect(state.order).toEqual(mockOrderData);
@@ -50,7 +44,7 @@ describe('Проверка работы newOrder', () => {
 
   it('очистка заказа через clearOrder', () => {
     const stateBefore: TCreateState = {
-      ...initialTestState,
+      ...initialState,
       order: mockOrderData,
     };
     const action = clearOrder();
@@ -63,7 +57,7 @@ describe('Проверка работы newOrder', () => {
 
   it('установка orderCall в false при rejected-запросе', () => {
     const action = { type: createOrder.rejected.type };
-    const state = newOrderSlice.reducer(initialTestState, action);
+    const state = newOrderSlice.reducer(initialState, action);
 
     expect(state.orderCall).toBe(false);
     expect(state.order).toBeNull();

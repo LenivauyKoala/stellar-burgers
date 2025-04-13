@@ -1,29 +1,21 @@
 import { TUserResponse } from '@api';
-import { userSlice, checkUser, userLogout } from './user-slice';
+import { userSlice, checkUser, userLogout, initialState } from './user-slice';
 import { sliceNames } from '../slices-name';
-
-const initialTestState = {
-  data: null,
-  isAuthChecked: false,
-  isValidate: false,
-  isLoginUserLoading: false,
-  error: ''
-};
 
 describe('Проверка работы user', () => {
   describe('Проверка синхронных операций', () => {
     it('при проверке пользователя должен устанавливаться флаг проверки', () => {
-      const state = userSlice.reducer(initialTestState, checkUser());
+      const state = userSlice.reducer(initialState, checkUser());
 
       expect(state).toEqual({
-        ...initialTestState,
+        ...initialState,
         isAuthChecked: true
       });
     });
 
     it('при выходе должны сбрасываться все данные пользователя', () => {
       const loggedInState = {
-        ...initialTestState,
+        ...initialState,
         data: { name: 'Hopsi', email: 'e2e-TEST@test.ru' },
         isValidate: true,
         isAuthChecked: true,
@@ -31,17 +23,17 @@ describe('Проверка работы user', () => {
       };
       const resetState = userSlice.reducer(loggedInState, userLogout());
 
-      expect(resetState).toEqual(initialTestState);
+      expect(resetState).toEqual(initialState);
     });
   });
 
   describe('Проверка асинхронных операций', () => {
     it('при начале загрузки должен устанавливаться флаг загрузки', () => {
       const action = { type: `${sliceNames.USER}/loginUser/pending` };
-      const state = userSlice.reducer(initialTestState, action);
+      const state = userSlice.reducer(initialState, action);
 
       expect(state).toEqual({
-        ...initialTestState,
+        ...initialState,
         isLoginUserLoading: true
       });
     });
@@ -58,10 +50,10 @@ describe('Проверка работы user', () => {
           type: `${sliceNames.USER}/loginUser/fulfilled`, 
           payload: mockResponse 
         };
-        const state = userSlice.reducer(initialTestState, action);
+        const state = userSlice.reducer(initialState, action);
 
         expect(state).toEqual({
-          ...initialTestState,
+          ...initialState,
           isLoginUserLoading: false,
           isValidate: true,
           isAuthChecked: true,
@@ -74,10 +66,10 @@ describe('Проверка работы user', () => {
           type: `${sliceNames.USER}/loginUser/fulfilled`, 
           payload: { success: true, user: null } 
         };
-        const state = userSlice.reducer(initialTestState, action);
+        const state = userSlice.reducer(initialState, action);
 
         expect(state).toEqual({
-          ...initialTestState,
+          ...initialState,
           isLoginUserLoading: false,
           isAuthChecked: true,
           isValidate: false,
@@ -92,10 +84,10 @@ describe('Проверка работы user', () => {
         type: `${sliceNames.USER}/loginUser/rejected`, 
         payload: errorMessage 
       };
-      const state = userSlice.reducer(initialTestState, action);
+      const state = userSlice.reducer(initialState, action);
 
       expect(state).toEqual({
-        ...initialTestState,
+        ...initialState,
         isLoginUserLoading: false,
         isAuthChecked: true,
         error: errorMessage
